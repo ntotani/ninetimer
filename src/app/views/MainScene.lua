@@ -3,7 +3,7 @@ require "cocos.ui.GuiConstants"
 
 local MainScene = class("MainScene", cc.load("mvc").ViewBase)
 
-local TIME = 10
+local TIME = 540
 local FONT_SIZE = 18
 local DELAY = 0.2
 
@@ -14,8 +14,13 @@ function MainScene:onCreate()
     eb:setFontColor(cc.c3b(0, 0, 0))
     eb:move(display.cx / 2, display.top - 100):addTo(self)
     local time = TIME
-    local countDown = cc.Label:createWithSystemFont(time .. ".00", "Arial", 128)
+    local countDown = cc.Label:createWithSystemFont("", "Arial", 128)
     countDown:move(display.cx / 2, display.cy):addTo(self)
+    local showTime = function()
+        local min = math.floor(time / 60)
+        countDown:setString(string.format("%02d:%02d", min, time - min * 60))
+    end
+    showTime()
     local played = false
 
     local listView = ccui.ListView:create():move(display.cx, 0):addTo(self)
@@ -113,7 +118,7 @@ function MainScene:onCreate()
             self:onUpdate(function()end)
             audio.playSound("bell.mp3")
         end
-        countDown:setString(string.format("%.02f", time))
+        showTime()
     end)
 end
 
