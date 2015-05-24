@@ -1,1 +1,1 @@
-open runtime/mac/ninetimer\ Mac.app --args -workdir `pwd` -debugger codeide
+open runtime/mac/ninetimer Mac.app --args -console disable
