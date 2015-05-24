@@ -23,6 +23,7 @@ function MainScene:onCreate()
     showTime()
     local played = false
 
+    local theme = nil
     local listView = ccui.ListView:create():move(display.cx, 0):addTo(self)
     listView:setDirection(ccui.ListViewDirection.vertical)
     listView:setContentSize(cc.size(display.width / 2, display.height))
@@ -31,6 +32,15 @@ function MainScene:onCreate()
 
     local playButton = cc.MenuItemImage:create("PlayButton.png", "PlayButton.png")
         :onClicked(function()
+            if played then
+                eb:setText("")
+                theme:removeFromParent()
+                time = TIME
+                showTime()
+                listView:removeAllItems()
+                played = false
+                return
+            end
             local query = eb:getText()
             require("cocos.cocos2d.luaoc").callStaticMethod("AppController", "requestSearch", {
                 query = query,
@@ -99,7 +109,7 @@ function MainScene:onCreate()
                                         elm.rt:pushBackElement(ccui.RichElementText:create(j, e.color, 255, e.text, "Hiragino Kaku Gothic Pro W3", FONT_SIZE))
                                     end
                                 end
-                                cc.Label:createWithSystemFont(keywords[1], "Hiragino Kaku Gothic Pro W3", FONT_SIZE * 2):move(display.cx / 2, display.top - 200):addTo(self)
+                                theme = cc.Label:createWithSystemFont(keywords[1], "Hiragino Kaku Gothic Pro W3", FONT_SIZE * 2):move(display.cx / 2, display.top - 200):addTo(self)
                                 played = true
                             end)))
                         end
